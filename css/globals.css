@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+    .flexHolder {
+        @apply border-x-4 border-blue-400 ;
+    }
+
+    .flexRow {
+      @apply flex relative;
+    }
+
+    .flexRowOptions {
+        @apply cursor-pointer select-none   absolute left-full top-1/2 transform -translate-y-1/2 ;
+    }
+
+    .flexRowFirst {
+        @apply bg-sky-100 font-bold text-3xl border-y-4 border-blue-400;
+    }
+
+    .flexRowDefault {
+        @apply bg-sky-50 text-2xl border-b-2 border-blue-400
+    }
+
+    .flexRowOczekuje {
+        @apply bg-green-200 text-2xl border-b-2 border-green-400
+    }
+
+    .flexRowSkonczony {
+        @apply bg-green-200 text-2xl border-b-2 border-green-400
+    }
+
+    .flexRowWTrakcie {
+        @apply bg-green-200 text-2xl border-b-2 border-green-400
+    }
+
+    .flexRowZaplacone {
+        @apply bg-green-200 text-2xl border-b-2 border-green-400
+    }
+
+    .flexRowLast {
+        @apply bg-sky-50 text-2xl border-b-4 border-blue-400
+    }
+
+    .flexCell {
+        @apply px-2 py-4 whitespace-nowrap;
+    }
+
+    .flexCellBorder {
+        @apply  border-r-2 border-blue-400
+    }
+
+    .flexNumber {
+        @apply w-32;
+    }
+    .flexName {
+        @apply w-72;
+    }
+    .flexClient {
+        @apply w-36;
+    }
+    .flexDate {
+        @apply w-44;
+    }
+    .flexStreets {
+        @apply w-64
+    }
+    .flexFiles {
+        @apply w-20
+    }
+    .flexStatus {
+        @apply w-40
+    }
+  }

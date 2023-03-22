@@ -2,22 +2,21 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { mutate } from 'swr'
 
-const Form = ({ formId, petForm, forNewPet = true }) => {
+const Form = ({ formId, projectForm, forNewProject = true }) => {
   const router = useRouter()
   const contentType = 'application/json'
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState('')
 
   const [form, setForm] = useState({
-    name: petForm.name,
-    owner_name: petForm.owner_name,
-    species: petForm.species,
-    age: petForm.age,
-    poddy_trained: petForm.poddy_trained,
-    diet: petForm.diet,
-    image_url: petForm.image_url,
-    likes: petForm.likes,
-    dislikes: petForm.dislikes,
+    project_number: projectForm.project_number,
+    project_name: projectForm.project_name,
+    project_client: projectForm.project_client,
+    project_filesNumber: projectForm.project_filesNumber,
+    project_start: projectForm.project_start,
+    project_termin: projectForm.project_termin,
+    project_price: projectForm.project_price,
+    project_status: projectForm.project_status,
   })
 
   /* The PUT method edits an existing entry in the mongodb database. */
@@ -72,9 +71,7 @@ const Form = ({ formId, petForm, forNewPet = true }) => {
   }
 
   const handleChange = (e) => {
-    const target = e.target
-    const value =
-      target.name === 'poddy_trained' ? target.checked : target.value
+    const value = e.target.value
     const name = target.name
 
     setForm({
@@ -86,10 +83,8 @@ const Form = ({ formId, petForm, forNewPet = true }) => {
   /* Makes sure pet info is filled for pet name, owner name, species, and image url*/
   const formValidate = () => {
     let err = {}
-    if (!form.name) err.name = 'Name is required'
-    if (!form.owner_name) err.owner_name = 'Owner is required'
-    if (!form.species) err.species = 'Species is required'
-    if (!form.image_url) err.image_url = 'Image URL is required'
+    if (!form.name) err.name = 'Wymagana jest nazwa projektu'
+    if (!form.owner_name) err.owner_name = 'Wymagana jest nazwa klienta'
     return err
   }
 
@@ -97,7 +92,7 @@ const Form = ({ formId, petForm, forNewPet = true }) => {
     e.preventDefault()
     const errs = formValidate()
     if (Object.keys(errs).length === 0) {
-      forNewPet ? postData(form) : putData(form)
+      forNewProject ? postData(form) : putData(form)
     } else {
       setErrors({ errs })
     }
@@ -106,7 +101,72 @@ const Form = ({ formId, petForm, forNewPet = true }) => {
   return (
     <>
       <form id={formId} onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
+      <label htmlFor="project_number">Numer projektu</label>
+        <input
+          type="number"
+          maxLength="6"
+          name="project_number"
+          value={form.project_number}
+          onChange={handleChange}
+          required
+        />
+
+      <label htmlFor="project_name">Nazwa projektu</label>
+        <input
+          type="string"
+          name="project_name"
+          value={form.project_name}
+          onChange={handleChange}
+          required
+        />
+
+      <label htmlFor="project_client">Nazwa klienta</label>
+        <input
+          type="string"
+          name="project_client"
+          value={form.project_client}
+          onChange={handleChange}
+          required
+        />
+
+      <label htmlFor="project_start">Data startu Projektu</label>
+        <input
+          type="date"
+          name="project_start"
+          value={form.project_start}
+          onChange={handleChange}
+          required
+        />
+
+      <label htmlFor="project_termin">Data terminu Projektu</label>
+        <input
+          type="date"
+          name="project_termin"
+          value={form.project_termin}
+          onChange={handleChange}
+          required
+        />
+
+      <label htmlFor="project_price">Kwota</label>
+        <input
+          type="number"
+          name="project_price"
+          value={form.project_price}
+          onChange={handleChange}
+          required
+        />
+
+      <label htmlFor="project_status">Status</label>
+         <select onChange={handleChange} className="w-full bg-transparent rounded-md" name='project_price' value={form.project_status}>
+             <option>Oczekuje</option>
+             <option>W trakcie</option>
+             <option>Skończony</option>
+             <option>Zapłacone</option>
+            </select>
+
+     
+
+        {/* <label htmlFor="name">Name</label>
         <input
           type="text"
           maxLength="20"
@@ -183,7 +243,7 @@ const Form = ({ formId, petForm, forNewPet = true }) => {
           maxLength="60"
           value={form.dislikes}
           onChange={handleChange}
-        />
+        /> */}
 
         <button type="submit" className="btn">
           Submit
