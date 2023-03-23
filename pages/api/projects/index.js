@@ -34,20 +34,18 @@ export default async function handler(req, res) {
         /////CREATE FOLDER
         
         /////CREATE DOCUMENT 
-        const project = await Project.create( req.body )
+        // const project = await Project.create({ 
+        //   ...req.body, 
+        //   project_filesPath: 'CAAA'
+        //   })
+
+        const project = await Project.create({ 
+          ...req.body, 
+          project_disk: `${req.body.project_disk}`
+          })
 
 
-        /////CREATE FOLDER FOR DOCUMENT FILES
-        // console.log(`${req.body.project_disk}:\\szafranprojekt\\${project._id.toString()}`)
-        try {
-          if (!fs.existsSync(`${req.body.project_disk}:\\szafranprojekt\\${project._id.toString()}`)) {
-            fs.mkdirSync(`${req.body.project_disk}:\\szafranprojekt\\${project._id.toString()}`, { recursive: true });
-          }
-        } catch (err) {
-          console.error(err);
-          res.status(500).json({ success: false, })
-        }
-
+        
      
 
         res.status(201).json({ success: true, })
