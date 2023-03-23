@@ -1,6 +1,21 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { mutate } from 'swr'
+import DiskViewer from './DiskViewer'
+const disks = [
+  {
+    capacity: '66',
+    used: '613.33 GB',
+    available: '317.58 GB',
+    diskName: 'C'
+  },
+  {
+    capacity: '68',
+    used: '160.99 GB',
+    available: '76.96 GB',
+    diskName: 'E'
+  }
+]
 
 const Form = ({ formId, projectForm, forNewProject = true }) => {
   const router = useRouter()
@@ -15,8 +30,10 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
     project_filesNumber: projectForm.project_filesNumber,
     project_start: projectForm.project_start,
     project_termin: projectForm.project_termin,
+    project_streets: projectForm.project_streets,
     project_price: projectForm.project_price,
     project_status: projectForm.project_status,
+    project_disk: projectForm.project_disk
   })
 
   /* The PUT method edits an existing entry in the mongodb database. */
@@ -50,7 +67,7 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
   /* The POST method adds a new entry in the mongodb database. */
   const postData = async (form) => {
     try {
-      const res = await fetch('/api/pets', {
+      const res = await fetch('/api/projects', {
         method: 'POST',
         headers: {
           Accept: contentType,
@@ -66,13 +83,13 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
 
       router.push('/')
     } catch (error) {
-      setMessage('Failed to add pet')
+      setMessage('Nie udało się dodać projektu')
     }
   }
 
   const handleChange = (e) => {
     const value = e.target.value
-    const name = target.name
+    const name = e.target.name
 
     setForm({
       ...form,
@@ -90,12 +107,15 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const errs = formValidate()
-    if (Object.keys(errs).length === 0) {
-      forNewProject ? postData(form) : putData(form)
-    } else {
-      setErrors({ errs })
-    }
+    // const errs = formValidate()
+    postData(form)
+    // if (Object.keys(errs).length === 0) {
+      
+      
+    // } else {
+    //   console.log('dd')
+    //   setErrors({ errs })
+    // }
   }
 
   return (
@@ -126,25 +146,30 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
           name="project_client"
           value={form.project_client}
           onChange={handleChange}
-          required
         />
 
       <label htmlFor="project_start">Data startu Projektu</label>
         <input
-          type="date"
+          type="text"
           name="project_start"
           value={form.project_start}
           onChange={handleChange}
-          required
         />
 
       <label htmlFor="project_termin">Data terminu Projektu</label>
         <input
-          type="date"
+          type="text"
           name="project_termin"
           value={form.project_termin}
           onChange={handleChange}
-          required
+        />
+
+      <label htmlFor="project_streets">Ulice w projekcie:</label>
+        <input
+          type="text"
+          name="project_streets"
+          value={form.project_streets}
+          onChange={handleChange}
         />
 
       <label htmlFor="project_price">Kwota</label>
@@ -153,97 +178,20 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
           name="project_price"
           value={form.project_price}
           onChange={handleChange}
-          required
         />
 
       <label htmlFor="project_status">Status</label>
-         <select onChange={handleChange} className="w-full bg-transparent rounded-md" name='project_price' value={form.project_status}>
+         <select onChange={handleChange} className="w-full bg-transparent rounded-md" name='project_status' value={form.project_status}>
              <option>Oczekuje</option>
              <option>W trakcie</option>
              <option>Skończony</option>
              <option>Zapłacone</option>
-            </select>
+          </select>
 
-     
+      <label htmlFor="project_disk">Zapisać na którym dysku:</label>
+      <DiskViewer disks={disks} handleChange={handleChange} />
 
-        {/* <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          maxLength="20"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
-
-        <label htmlFor="owner_name">Owner</label>
-        <input
-          type="text"
-          maxLength="20"
-          name="owner_name"
-          value={form.owner_name}
-          onChange={handleChange}
-          required
-        />
-
-        <label htmlFor="species">Species</label>
-        <input
-          type="text"
-          maxLength="30"
-          name="species"
-          value={form.species}
-          onChange={handleChange}
-          required
-        />
-
-        <label htmlFor="age">Age</label>
-        <input
-          type="number"
-          name="age"
-          value={form.age}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="poddy_trained">Potty Trained</label>
-        <input
-          type="checkbox"
-          name="poddy_trained"
-          checked={form.poddy_trained}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="diet">Diet</label>
-        <textarea
-          name="diet"
-          maxLength="60"
-          value={form.diet}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="image_url">Image URL</label>
-        <input
-          type="url"
-          name="image_url"
-          value={form.image_url}
-          onChange={handleChange}
-          required
-        />
-
-        <label htmlFor="likes">Likes</label>
-        <textarea
-          name="likes"
-          maxLength="60"
-          value={form.likes}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="dislikes">Dislikes</label>
-        <textarea
-          name="dislikes"
-          maxLength="60"
-          value={form.dislikes}
-          onChange={handleChange}
-        /> */}
+      <p>Folder będzie znajdował się w <span className='font-bold italic text-lg'>{form.project_disk}:/szafranprojekt/ NUMER ID</span></p>
 
         <button type="submit" className="btn">
           Submit

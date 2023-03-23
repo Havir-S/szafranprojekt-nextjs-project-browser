@@ -2,15 +2,12 @@ import mongoose from 'mongoose'
 
 /* PetSchema will correspond to a collection in your MongoDB database. */
 const ProjectSchema = new mongoose.Schema({
-  projec_number: {
+  project_number: {
     type: Number,
   },
-  
   project_name: {
     type: String,
-    required: [true, 'Proszę podać nazwę dla tego projektu.'],
   },
-
   project_client: {
     type: String,
   },
@@ -23,23 +20,22 @@ const ProjectSchema = new mongoose.Schema({
   project_filesPath: {
     type: String,
   },
-  project_filesNames: {
-    type: [String],
+  project_files: {
+    type: [Object],
   },
   project_start: {
-    type: Date,
+    type: String,
   },
   project_termin: {
-    type: Date,
+    type: String,
   },
   project_price: {
     type: Number,
   },
-  project_price: {
-    type: String,
-  },
-},{
-  timestamps: true
 } )
+
+ProjectSchema.pre('save', () => console.log('Hello from pre save'));
+
+ProjectSchema.pre('deleteOne', function() { console.log('DELETING!'); });
 
 export default mongoose.models.Project || mongoose.model('Project', ProjectSchema)
