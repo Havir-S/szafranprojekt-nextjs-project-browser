@@ -44,8 +44,8 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
       const res = await fetch(`/api/pets/${id}`, {
         method: 'PUT',
         headers: {
-          Accept: contentType,
-          'Content-Type': contentType,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(form),
       })

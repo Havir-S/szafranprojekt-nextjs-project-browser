@@ -32,21 +32,28 @@ const ProjectSchema = new mongoose.Schema({
   project_price: {
     type: Number,
   },
+  project_status: {
+    type: String,
+  },
 } )
 
 ProjectSchema.pre('save', async function (next) {
   const user = this;
   /////CREATE FOLDER FOR DOCUMENT FILES
-  try {
-    if (!fs.existsSync(`${user.project_disk}:\\szafranprojekt\\${user.id}`)) {
-      fs.mkdirSync(`${user.project_disk}:\\szafranprojekt\\${user.id}`, { recursive: true });
-    }
-  } catch (err) {
-    console.error(err);
-  }
-  console.log('Zapisano nowy projekt.', `${user.project_disk}:\\szafranprojekt\\${user.id}`)
+  // try {
+  //   if (!fs.existsSync(`${user.project_disk}:\\szafranprojekt\\${user.id}`)) {
+  //     fs.mkdirSync(`${user.project_disk}:\\szafranprojekt\\${user.project_number}-${user.project_name}`, { recursive: true });
+  //   }
+  // } catch (err) {
+  //   console.error(err);
+  // }
+  console.log('Zapisano nowy projekt.', `${user.project_disk}:\\szafranprojekt\\${user.project_number}-${user.project_name}`)
   next();
 });
+
+ProjectSchema.virtual('filePath').get(function () {
+  return`${this.project_disk}:\\szafranprojekt\\${this.project_number}-${this.project_name}`
+})
 
 ProjectSchema.pre('deleteOne', async function(next) {
   /////delete folder on delete schema

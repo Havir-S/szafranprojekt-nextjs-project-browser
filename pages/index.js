@@ -1,13 +1,16 @@
 import Link from 'next/link'
+import { useState } from 'react'
+import EditProject from '../components/EditProject'
 import ProjectList from '../components/ProjectList'
 import dbConnect from '../lib/dbConnect'
-import Pet from '../models/Pet'
 import Project from '../models/Project'
 
 import TEMPLATE_PROJECTS from './TEMP.js'
 
 
 const Index = ({ projects }) => { 
+  const [editor, toggleEditor] = useState(false)
+  const [currentEditingProject, setCurrentEditingProject] = useState({})
   return (
   <div className='mb-24 '>
     <div className='bg-white w-fit mx-auto border-2 mt-16  rounded-md'>
@@ -15,8 +18,11 @@ const Index = ({ projects }) => {
       <div className=' flexHolder  w-fit mx-auto'>
 
       {/* /////// ZROBIĆ KWADRACIK NA NOTKI CO ZROBIĆ ITP */}
-        <ProjectList projects={projects} />
+        <ProjectList setCurrentEditingProject={setCurrentEditingProject} projects={projects} toggleEditor={toggleEditor} />
 
+        {editor && (
+          <EditProject setCurrentEditingProject={setCurrentEditingProject} currentEditingProject={currentEditingProject} toggleEditor={toggleEditor} />
+        )}
         
       </div>
     </div>
@@ -31,19 +37,13 @@ export async function getServerSideProps() {
   const resultsProjects = await Project.find({})
   const projects = resultsProjects.map((doc) => {
     const project= doc.toObject();
-    
     project._id = project._id.toString()
     return project
   })
 
-  const result = await Pet.find({})
-  const pets = result.map((doc) => {
-    const pet = doc.toObject()
-    pet._id = pet._id.toString()
-    return pet
-  })
 
-  return { props: { pets: pets, projects:projects } }
+
+  return { props: {  projects:projects } }
 }
 
 export default Index
