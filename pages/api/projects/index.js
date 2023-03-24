@@ -10,17 +10,17 @@ export default async function handler(req, res) {
 
   switch (method) {
     case 'GET':
-      // try {
-      //   const pets = await Pet.find({}) /* find all the data in our database */
-      //   res.status(200).json({ success: true, data: pets })
-      // } catch (error) {
-      //   res.status(400).json({ success: false })
-      // }
+    
       console.log('ding')
       try {
-        await Project.findOne({}).deleteOne()
+        const user = await Project.findOne({})
+
+        fs.rmSync(`${user.project_disk}:\\szafranprojekt\\${user.id}`, { recursive: true, force: true });
+        user.remove();
+        
           res.status(200).json({ success: true,  })
       } catch (err) {
+        console.log(err)
           res.status(400).json({ success: false })
       }
       break
@@ -34,14 +34,9 @@ export default async function handler(req, res) {
         /////CREATE FOLDER
         
         /////CREATE DOCUMENT 
-        // const project = await Project.create({ 
-        //   ...req.body, 
-        //   project_filesPath: 'CAAA'
-        //   })
-
         const project = await Project.create({ 
           ...req.body, 
-          project_disk: `${req.body.project_disk}`
+          // project_disk: `${req.body.project_disk}`
           })
 
 

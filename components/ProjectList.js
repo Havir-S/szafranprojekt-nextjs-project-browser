@@ -44,7 +44,7 @@ function ProjectList({projects}) {
               </div>
               <div className='flexRowOptions hidden group-hover:block'>
                 <button className=' cursor-pointer ml-5 font-extrabold shadow-md bg-sky-200 hover:bg-sky-300 text-gray-900 hover:text-black rounded-xl  border-4 border-blue-500 px-4 py-2'>
-                  <Link href={`projects/${projekt._id}`}>EDYTUJ</Link>
+                  <Link href={`api/projects/delete/${projekt._id}`}>EDYTUJ</Link>
                 </button>
               </div>
             </div>

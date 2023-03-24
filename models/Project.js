@@ -34,7 +34,7 @@ const ProjectSchema = new mongoose.Schema({
   },
 } )
 
-ProjectSchema.pre('save', function (next) {
+ProjectSchema.pre('save', async function (next) {
   const user = this;
   /////CREATE FOLDER FOR DOCUMENT FILES
   try {
@@ -44,16 +44,16 @@ ProjectSchema.pre('save', function (next) {
   } catch (err) {
     console.error(err);
   }
-  console.log('Zapisano nowy projekt.')
+  console.log('Zapisano nowy projekt.', `${user.project_disk}:\\szafranprojekt\\${user.id}`)
   next();
 });
 
-ProjectSchema.pre('deleteOne', function(next) {
+ProjectSchema.pre('deleteOne', async function(next) {
   /////delete folder on delete schema
-  console.log('deleting', `${user.project_disk}:\\szafranprojekt\\${user.id}`)
-  const user = this; 
+
+  //////////// DOESN'T WORK FROM HERE, SWITCHING TO DELETING ON REACHING THE APP
   // try {
-  //   fs.rmSync(`${user.project_disk}:\\szafranprojekt\\${user.id}`, { recursive: true, force: true });
+  //   fs.rmSync(`${this.project_disk}:\\szafranprojekt\\${this.id}`, { recursive: true, force: true });
   //   // fs.rm(`${user.project_disk}:\\szafranprojekt\\${user.id}`, { recursive: true }, (err => {
   //   //   if (err) {
   //   //     console.log(err)
