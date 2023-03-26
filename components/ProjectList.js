@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import ProjectRow from './ProjectRow';
 
 function ProjectList({projects, toggleEditor, setCurrentEditingProject}) {
 
@@ -8,6 +9,18 @@ function ProjectList({projects, toggleEditor, setCurrentEditingProject}) {
       await fetch(`api/projects/delete/${id}`);
     } catch (e) {
       console.log(e)
+    }
+  }
+
+  const openFolder = async (path) => {
+    try {
+      console.log('dddING')
+      await fetch(`api/openfolder`, {
+        method: 'POST',
+        body: JSON.stringify(path)
+      })
+    } catch (err) {
+      console.log(err)
     }
   }
   return (
@@ -28,38 +41,7 @@ function ProjectList({projects, toggleEditor, setCurrentEditingProject}) {
         {projects?.length > 0 ? 
           (projects.map((projekt, id) => {
             return (
-            <div key={id} className={`flexRow 
-            ${projekt.project_status === 'Zapłacone' ? 'flexRowZaplacone' 
-              : projekt.project_status === 'Oczekuje' ? 'flexRowOczekuje' 
-              : projekt.project_status === 'Skończony' ? 'flexRowSkonczony' 
-              : projekt.project_status === 'W trakcie' ? 'flexRowWTrakcie' 
-              : 'flexRowDefault'}  ${(id + 1) === projects.length ? 'flexRowLast' : ''} group `}
-            >
-              <div className='flexCell flexNumber flexCellBorder text-center'>{projekt.project_number}</div>
-              <div className='flexCell flexName flexCellBorder truncate hover:text-clip'>{projekt.project_name}</div>
-              <div className='flexCell flexClient flexCellBorder truncate hover:text-clip'>{projekt.project_client}</div>
-              <div className='flexCell flexStreets flexCellBorder truncate hover:text-clip'>{projekt.project_streets}</div>
-              <div className='flexCell flexFiles flexCellBorder'>{projekt.project_filesNumber}</div>
-              <div className='flexCell flexDate flexCellBorder'>
-              {projekt.project_start}
-              </div>
-              <div className='flexCell flexDate flexCellBorder'>
-              {projekt.project_termin}
-              </div>
-              <div className='flexCell flexNumber flexCellBorder'>{projekt.project_price}</div>
-              <div className='flexCell flexStatus '>
-              {projekt.project_status}
-              </div>
-              <div className='flexRowOptions hidden group-hover:block'>
-                <button className=' cursor-pointer ml-5 font-extrabold shadow-md bg-sky-200 hover:bg-sky-300 text-gray-900 hover:text-black rounded-xl  border-4 border-blue-500 px-4 py-2'>
-                  {/* <p href={`api/projects/delete/${projekt._id}`}>USUŃ</p> */}
-                  <p onClick={() => {fastDelete(projekt._id)}} >USUŃ</p>
-                </button>
-                <button className=' cursor-pointer ml-5 font-extrabold shadow-md bg-sky-200 hover:bg-sky-300 text-gray-900 hover:text-black rounded-xl  border-4 border-blue-500 px-4 py-2'>
-                  <p onClick={() => {toggleEditor(true); setCurrentEditingProject(projekt)}}>EDYTUJ</p>
-                </button>
-              </div>
-            </div>
+            <ProjectRow key={id} fastDelete={fastDelete} openFolder={openFolder} setCurrentEditingProject={setCurrentEditingProject} toggleEditor={toggleEditor} length={projects?.length} projekt={projekt} id={id} />
             )
           }
         )) : ('')}

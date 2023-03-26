@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         console.log(projectOld.project_name, req.body.project_name)
         if (projectOld.project_name !== req.body.project_name || projectOld.project_number !== req.body.project_number || projectOld.project) {
             try {
-                fs.rename(`${projectOld.project_disk}:\\szafranprojekt\\${projectOld.project_number}-${projectOld.project_name}`, `${projectOld.project_disk}:\\szafranprojekt\\${req.body.project_number}-${req.body.project_name}`, (err) => {console.log(err)})
+                fs.rename(`${projectOld.project_disk}:\\szafranprojekt\\${projectOld.project_number}-${projectOld.project_name}`, `${projectOld.project_disk}:\\szafranprojekt\\${req.body.project_number}-${req.body.project_name}`, (err) => {if (err) console.log(err)})
             } catch (err) {
                 console.log(err)
             }
