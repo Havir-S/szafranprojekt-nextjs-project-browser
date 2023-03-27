@@ -2,26 +2,11 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { mutate } from 'swr'
 import DiskViewer from './DiskViewer'
-const disks = [
-  {
-    capacity: '66',
-    used: '613.33 GB',
-    available: '317.58 GB',
-    diskName: 'C'
-  },
-  {
-    capacity: '68',
-    used: '160.99 GB',
-    available: '76.96 GB',
-    diskName: 'E'
-  }
-]
 
-const Form = ({ formId, projectForm, forNewProject = true }) => {
+const Form = ({ formId, projectForm, disks, }) => {
   const router = useRouter()
   const contentType = 'application/json'
-  const [errors, setErrors] = useState({})
-  const [message, setMessage] = useState('')
+  const [errors, setErrors] = useState(['Projekt potrzebuje nazwy.', 'Musisz wybrać dysk na którym ma powstać folder dla projektu.'])
 
   const [form, setForm] = useState({
     project_number: projectForm.project_number,
@@ -36,33 +21,6 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
     project_disk: projectForm.project_disk
   })
 
-  /* The PUT method edits an existing entry in the mongodb database. */
-  const putData = async (form) => {
-    const { id } = router.query
-
-    try {
-      const res = await fetch(`/api/pets/${id}`, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      })
-
-      // Throw error with status code in case Fetch API req failed
-      if (!res.ok) {
-        throw new Error(res.status)
-      }
-
-      const { data } = await res.json()
-
-      mutate(`/api/pets/${id}`, data, false) // Update the local data without a revalidation
-      router.push('/')
-    } catch (error) {
-      setMessage('Failed to update pet')
-    }
-  }
 
   /* The POST method adds a new entry in the mongodb database. */
   const postData = async (form) => {
@@ -76,14 +34,9 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
         body: JSON.stringify(form),
       })
 
-      // Throw error with status code in case Fetch API req failed
-      if (!res.ok) {
-        throw new Error(res.status)
-      }
-
       router.push('/')
     } catch (error) {
-      setMessage('Nie udało się dodać projektu')
+      console.log(error)
     }
   }
 
@@ -120,7 +73,7 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
 
   return (
     <>
-      <form id={formId} onSubmit={handleSubmit}>
+      <form id={formId} onSubmit={handleSubmit} className='mb-5 relative'>
       <label htmlFor="project_number">Numer projektu</label>
         <input
           type="number"
@@ -190,19 +143,24 @@ const Form = ({ formId, projectForm, forNewProject = true }) => {
 
       <label htmlFor="project_disk">Zapisać na którym dysku:</label>
       <DiskViewer disks={disks} handleChange={handleChange} />
+      
+      
 
       <p>Folder będzie znajdował się w <span className='font-bold italic text-lg'>{form.project_disk}:/szafranprojekt/ NUMER ID</span></p>
 
         <button type="submit" className="btn">
-          Submit
+          DODAJ PROJEKT
         </button>
+
+        {errors.length > 0 && (
+          <div className=' font-bold text-2xl border-orange-500 border-4 bg-orange-300 rounded-lg w-96 px-5 py-2 absolute top-0 left-full ml-5 mt-5'>
+          {errors.map((err,id) => (
+            <p key={id}>-{err}</p>
+          ))}
+          </div>
+        )}
+        
       </form>
-      <p>{message}</p>
-      <div>
-        {Object.keys(errors).map((err, index) => (
-          <li key={index}>{err}</li>
-        ))}
-      </div>
     </>
   )
 }
