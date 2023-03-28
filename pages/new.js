@@ -12,6 +12,7 @@ const NewProject = ({disks}) => {
     project_streets: '',
     project_price: 0,
     project_disk: '',
+    project_files: [],
     project_status: 'Oczekuje',
   }
 

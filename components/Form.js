@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { mutate } from 'swr'
 import DiskViewer from './DiskViewer'
@@ -6,7 +6,7 @@ import DiskViewer from './DiskViewer'
 const Form = ({ formId, projectForm, disks, }) => {
   const router = useRouter()
   const contentType = 'application/json'
-  const [errors, setErrors] = useState(['Projekt potrzebuje nazwy.', 'Musisz wybrać dysk na którym ma powstać folder dla projektu.'])
+  const [errors, setErrors] = useState([])
 
   const [form, setForm] = useState({
     project_number: projectForm.project_number,
@@ -24,23 +24,27 @@ const Form = ({ formId, projectForm, disks, }) => {
 
   /* The POST method adds a new entry in the mongodb database. */
   const postData = async (form) => {
-    try {
-      const res = await fetch('/api/projects', {
-        method: 'POST',
-        headers: {
-          Accept: contentType,
-          'Content-Type': contentType,
-        },
-        body: JSON.stringify(form),
-      })
+    // formValidate();
+    if (form.project_name && form.project_disk) {
+        try {
+        const res = await fetch('/api/projects', {
+          method: 'POST',
+          headers: {
+            Accept: contentType,
+            'Content-Type': contentType,
+          },
+          body: JSON.stringify(form),
+        })
 
-      router.push('/')
-    } catch (error) {
-      console.log(error)
+        router.push('/')
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
   const handleChange = (e) => {
+    
     const value = e.target.value
     const name = e.target.name
 
@@ -50,13 +54,7 @@ const Form = ({ formId, projectForm, disks, }) => {
     })
   }
 
-  /* Makes sure pet info is filled for pet name, owner name, species, and image url*/
-  const formValidate = () => {
-    let err = {}
-    if (!form.name) err.name = 'Wymagana jest nazwa projektu'
-    if (!form.owner_name) err.owner_name = 'Wymagana jest nazwa klienta'
-    return err
-  }
+  
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -146,19 +144,19 @@ const Form = ({ formId, projectForm, disks, }) => {
       
       
 
-      <p>Folder będzie znajdował się w <span className='font-bold italic text-lg'>{form.project_disk}:/szafranprojekt/ NUMER ID</span></p>
+      <p>Folder będzie znajdował się w <span className='font-bold italic text-lg'>{form.project_disk}:/szafranprojekt/{form.project_number}-{form.project_name}</span></p>
 
         <button type="submit" className="btn">
           DODAJ PROJEKT
         </button>
 
-        {errors.length > 0 && (
+        {/* {errors.length > 0 && (
           <div className=' font-bold text-2xl border-orange-500 border-4 bg-orange-300 rounded-lg w-96 px-5 py-2 absolute top-0 left-full ml-5 mt-5'>
           {errors.map((err,id) => (
             <p key={id}>-{err}</p>
           ))}
           </div>
-        )}
+        )} */}
         
       </form>
     </>

@@ -4,6 +4,10 @@
 
 @layer components {
 
+    .fileRow {
+        @apply flex items-center justify-between border-b-2 border-gray-200 py-2 font-bold cursor-pointer hover:text-sky-500 hover:bg-sky-50 px-2 mx-2 rounded-md  border border-b-sky-600 border-transparent hover:border-sky-300;
+    }
+
     .flexHolder {
         @apply border-x-4 border-blue-400 ;
     }

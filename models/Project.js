@@ -14,13 +14,13 @@ const ProjectSchema = new mongoose.Schema({
   project_streets: {
     type: String,
   },
-  project_filesNumber: {
-    type: Number,
-  },
   project_disk: {
     type: String,
   },
-  project_files: {
+  project_filesNumber: {
+    type: Number,
+  },
+  project_filesInfo: {
     type: [Object],
   },
   project_start: {

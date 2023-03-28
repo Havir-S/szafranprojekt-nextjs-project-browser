@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import ProjectRow from './ProjectRow';
 
-function ProjectList({projects, toggleEditor, setCurrentEditingProject}) {
+function ProjectList({projects, openFolder, toggleEditor, setCurrentEditingProject}) {
 
   const fastDelete = async (id) => {
     try {
@@ -12,17 +12,7 @@ function ProjectList({projects, toggleEditor, setCurrentEditingProject}) {
     }
   }
 
-  const openFolder = async (path) => {
-    try {
-      console.log('dddING')
-      await fetch(`api/openfolder`, {
-        method: 'POST',
-        body: JSON.stringify(path)
-      })
-    } catch (err) {
-      console.log(err)
-    }
-  }
+ 
   return (
     <div>
         {/* ////// FIRST LINE */}

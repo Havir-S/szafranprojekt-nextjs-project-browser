@@ -11,6 +11,20 @@ import TEMPLATE_PROJECTS from './TEMP.js'
 const Index = ({ projects }) => { 
   const [editor, toggleEditor] = useState(false)
   const [currentEditingProject, setCurrentEditingProject] = useState({})
+
+  const openFolder = async (path) => {
+    try {
+      console.log('dddING')
+      await fetch(`api/openfolder`, {
+        method: 'POST',
+        body: JSON.stringify(path)
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+
   return (
   <div className='mb-24 '>
     <div className='bg-white w-fit mx-auto border-2 mt-16  rounded-md'>
@@ -18,10 +32,10 @@ const Index = ({ projects }) => {
       <div className=' flexHolder  w-fit mx-auto'>
 
       {/* /////// ZROBIĆ KWADRACIK NA NOTKI CO ZROBIĆ ITP */}
-        <ProjectList setCurrentEditingProject={setCurrentEditingProject} projects={projects} toggleEditor={toggleEditor} />
+        <ProjectList openFolder={openFolder} setCurrentEditingProject={setCurrentEditingProject} projects={projects} toggleEditor={toggleEditor} />
 
         {editor && (
-          <EditProject setCurrentEditingProject={setCurrentEditingProject} currentEditingProject={currentEditingProject} toggleEditor={toggleEditor} />
+          <EditProject openFolder={openFolder} setCurrentEditingProject={setCurrentEditingProject} currentEditingProject={currentEditingProject} toggleEditor={toggleEditor} />
         )}
         
       </div>
