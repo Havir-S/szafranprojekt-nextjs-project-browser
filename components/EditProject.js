@@ -14,9 +14,9 @@ function EditProject({currentEditingProject, setCurrentEditingProject, openFolde
         })
     }
 
-    useEffect(() => {
-        console.log(currentEditingProject)
-    }, [currentEditingProject])
+    // useEffect(() => {
+    //     console.log(currentEditingProject)
+    // }, [currentEditingProject])
 
     const submitChange = async () => {
         try {

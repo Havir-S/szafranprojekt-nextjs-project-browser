@@ -19,7 +19,7 @@ function EditProjectFiles({handleChange, setCurrentEditingProject, newFilesArray
     useEffect(() => {
         
         if (filesNumber?.filesUploaded === filesNumber?.filesNeededToUpload) {
-            console.log('ready to go')
+            // console.log('ready to go')
             setCurrentEditingProject(prevState => ({
                 ...prevState,
                 project_files: filesToBeSentToForm,
@@ -62,10 +62,15 @@ function EditProjectFiles({handleChange, setCurrentEditingProject, newFilesArray
             }]))
 
             /////READ IT AS BINARY
-            reader.readAsBinaryString(file);
+            // reader.readAsBinaryString(file);
+
+            /////READ IT AS DataURL
+            reader.readAsDataURL(file);
 
             /////ONLOAD - add +1 number to the filesNumber.filesUploaded, if filesUploaded === filesNeededToUpload, allow user to upload files
             reader.onload = (e) => {
+
+                console.log(reader.result)
 
               ////PUSH THE NEW FILE TO THE filesToBeSentToForm array - once it's safe and okay we will attach it to the form
               setFilesToBeSentToForm(prevState => ([
