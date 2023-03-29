@@ -14,7 +14,6 @@ const Index = ({ projects }) => {
 
   const openFolder = async (path) => {
     try {
-      console.log('dddING')
       await fetch(`api/openfolder`, {
         method: 'POST',
         body: JSON.stringify(path)
@@ -43,11 +42,9 @@ const Index = ({ projects }) => {
   </div>
 )}
 
-/* Retrieves pet(s) data from mongodb database */
 export async function getServerSideProps() {
   await dbConnect()
 
-  /* find all the data in our database */
   const resultsProjects = await Project.find({})
   const projects = resultsProjects.map((doc) => {
     const project= doc.toObject();

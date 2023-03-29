@@ -47,7 +47,7 @@ ProjectSchema.pre('save', async function (next) {
   // } catch (err) {
   //   console.error(err);
   // }
-  console.log('Zapisano nowy projekt.', `${user.project_disk}:\\szafranprojekt\\${user.project_number}-${user.project_name}`)
+  console.log('Zapisano projekt.', `${user.project_disk}:\\szafranprojekt\\${user.project_number}-${user.project_name}`)
   next();
 });
 

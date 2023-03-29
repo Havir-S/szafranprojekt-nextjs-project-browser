@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import checkSize from '../lib/checkSize';
 
-function EditProjectFiles({handleChange, setCurrentEditingProject, newFilesArray, setNewFilesArray}) {
+function EditProjectFiles({currentEditingProject, setCurrentEditingProject, }) {
 
     ///* INPUT *///
     const inputRef = useRef(null)
@@ -14,7 +14,6 @@ function EditProjectFiles({handleChange, setCurrentEditingProject, newFilesArray
     ///THIS OBJECT IS USED TO MAKE SURE ALL OBJECTS ARE TRANSFERRED BEFORE THE UPLOAD TO THE SERVER. - It will soon have the properties of filesUploaded and filesNeededToUpload
     const [filesNumber, setFilesNumber] = useState({})
 
-
     ///ONCE ALL FILES HAVE BEEN THROUGH THE FILEREADER, UPLOAD THEM INTO THE CurrentEditingProject FORM
     useEffect(() => {
         
@@ -25,12 +24,10 @@ function EditProjectFiles({handleChange, setCurrentEditingProject, newFilesArray
                 project_files: filesToBeSentToForm,
             }))
         }
-
-        
     }, [filesNumber])
 
 
-
+    ///ON CLICK EVENT STARTS HERE
     const addFile = (e) => {
 
         ///1.It resets the array showing files on the upload event, and enables the FilesNumber variable to show and tell user about the upload process.
@@ -39,6 +36,8 @@ function EditProjectFiles({handleChange, setCurrentEditingProject, newFilesArray
         /////reset the uploaded files
         setSelectedFilesInfo([])
         
+
+        ////THIS IS THE SECURITY THAT ALLOWS US TO TELL IF EVERYTHING HAS BEEN UPLOADED
         setFilesNumber({
             filesUploaded: 0,
             filesNeededToUpload: e.target.files.length
@@ -70,8 +69,6 @@ function EditProjectFiles({handleChange, setCurrentEditingProject, newFilesArray
             /////ONLOAD - add +1 number to the filesNumber.filesUploaded, if filesUploaded === filesNeededToUpload, allow user to upload files
             reader.onload = (e) => {
 
-                console.log(reader.result)
-
               ////PUSH THE NEW FILE TO THE filesToBeSentToForm array - once it's safe and okay we will attach it to the form
               setFilesToBeSentToForm(prevState => ([
                 ...prevState,
@@ -89,6 +86,18 @@ function EditProjectFiles({handleChange, setCurrentEditingProject, newFilesArray
               }))
             }
           })
+    }
+
+    const deleteFile = async (file) => {
+      console.log(currentEditingProject, file)
+      await fetch(`/api/filedelete`, {
+        method: 'POST',
+        // body: JSON.stringify(`${currentEditingProject.project_disk}:\\szafranprojekt\\${currentEditingProject.project_number}-${currentEditingProject.project_name}\\${file.name}`)
+        body: JSON.stringify({
+          project: currentEditingProject,
+          fileToDelete: file
+        })
+      })
     }
 
   return (
@@ -109,6 +118,19 @@ function EditProjectFiles({handleChange, setCurrentEditingProject, newFilesArray
 
         {/* FILES ROW */}
         <div className='flex flex-col gap-2 overflow-y-auto h-103 overflow-x-hidden'>
+
+        {/* FILE ROWS FROM THE CURRENT PROJECT */}
+            {currentEditingProject?.project_filesInfo?.map((file, id) => (
+              <div key={id} className='fileRow group'>
+                    <img src='' alt='' />
+                    <p className='break-all'>{file.name} <span className='text-gray-60 break-normal'>- ({file.size})</span></p>
+                    <div onClick={() => {deleteFile(file)}} className='hidden group-hover:block border cursor-pointer rounded-lg font-bold p-1 bg-red-100 text-black active:bg-red-300 active:border-red-600 border-red-400 hover:bg-red-200'>
+                        USUŃ
+                    </div>
+              </div>
+            ))}
+
+        {/* FILE ROWS FROM ADDING NEW FILES */}
             {selectedFilesInfo.map((file, id) => (
                 <div key={id} className='fileRow group'>
                     <img src='' alt='' />

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import EditProjectFiles from './EditProjectFiles'
 
 function EditProject({currentEditingProject, setCurrentEditingProject, openFolder, toggleEditor}) {
+    
     const router = useRouter()
     const handleChange = (e) => {
         const value = e.target.value
@@ -13,10 +14,6 @@ function EditProject({currentEditingProject, setCurrentEditingProject, openFolde
          [name]: value,
         })
     }
-
-    // useEffect(() => {
-    //     console.log(currentEditingProject)
-    // }, [currentEditingProject])
 
     const submitChange = async () => {
         try {
@@ -99,7 +96,7 @@ function EditProject({currentEditingProject, setCurrentEditingProject, openFolde
                     <p className='font-bold italic'>{currentEditingProject.project_disk}:/szafranprojekt/{currentEditingProject.project_number}-{currentEditingProject.project_name}</p>
                 </div>
             </form>
-            <EditProjectFiles setCurrentEditingProject={setCurrentEditingProject} />
+            <EditProjectFiles currentEditingProject={currentEditingProject} setCurrentEditingProject={setCurrentEditingProject} />
         </div>
         
         
