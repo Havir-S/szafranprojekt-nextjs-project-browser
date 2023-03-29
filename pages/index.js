@@ -45,7 +45,7 @@ const Index = ({ projects }) => {
 export async function getServerSideProps() {
   await dbConnect()
 
-  const resultsProjects = await Project.find({})
+  const resultsProjects = await Project.find({}).limit(10)
   const projects = resultsProjects.map((doc) => {
     const project= doc.toObject();
     project._id = project._id.toString()

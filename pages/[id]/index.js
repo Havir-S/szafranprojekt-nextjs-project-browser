@@ -1,75 +1,60 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { useState } from 'react'
+import EditProject from '../../components/EditProject'
+import ProjectList from '../../components/ProjectList'
 import dbConnect from '../../lib/dbConnect'
-import Pet from '../../models/Pet'
+import Project from '../../models/Project'
 
-/* Allows you to view pet card info and delete pet card*/
-const PetPage = ({ pet }) => {
-  const router = useRouter()
-  const [message, setMessage] = useState('')
-  const handleDelete = async () => {
-    const petID = router.query.id
+import TEMPLATE_PROJECTS from '../TEMP'
 
+
+const Index = ({ projects }) => { 
+  const [editor, toggleEditor] = useState(false)
+  const [currentEditingProject, setCurrentEditingProject] = useState({})
+
+  const openFolder = async (path) => {
     try {
-      await fetch(`/api/pets/${petID}`, {
-        method: 'Delete',
+      await fetch(`api/openfolder`, {
+        method: 'POST',
+        body: JSON.stringify(path)
       })
-      router.push('/')
-    } catch (error) {
-      setMessage('Failed to delete the pet.')
+    } catch (err) {
+      console.log(err)
     }
   }
 
+
   return (
-    <div key={pet._id}>
-      <div className="card">
-        <img src={pet.image_url} />
-        <h5 className="pet-name">{pet.name}</h5>
-        <div className="main-content">
-          <p className="pet-name">{pet.name}</p>
-          <p className="owner">Owner: {pet.owner_name}</p>
+  <div className='mb-24 '>
+    <div className='bg-white w-fit mx-auto border-2 mt-16  rounded-md'>
+      <p className='text-6xl text-center font-bold my-5'>Projekty</p>
+      <div className=' flexHolder  w-fit mx-auto'>
 
-          {/* Extra Pet Info: Likes and Dislikes */}
-          <div className="likes info">
-            <p className="label">Likes</p>
-            <ul>
-              {pet.likes.map((data, index) => (
-                <li key={index}>{data} </li>
-              ))}
-            </ul>
-          </div>
-          <div className="dislikes info">
-            <p className="label">Dislikes</p>
-            <ul>
-              {pet.dislikes.map((data, index) => (
-                <li key={index}>{data} </li>
-              ))}
-            </ul>
-          </div>
+      {/* /////// ZROBIĆ KWADRACIK NA NOTKI CO ZROBIĆ ITP */}
+        <ProjectList openFolder={openFolder} setCurrentEditingProject={setCurrentEditingProject} projects={projects} toggleEditor={toggleEditor} />
 
-          <div className="btn-container">
-            <Link href="/[id]/edit" as={`/${pet._id}/edit`} legacyBehavior>
-              <button className="btn edit">Edit</button>
-            </Link>
-            <button className="btn delete" onClick={handleDelete}>
-              Delete
-            </button>
-          </div>
-        </div>
+        {editor && (
+          <EditProject openFolder={openFolder} setCurrentEditingProject={setCurrentEditingProject} currentEditingProject={currentEditingProject} toggleEditor={toggleEditor} />
+        )}
+        
       </div>
-      {message && <p>{message}</p>}
     </div>
-  )
-}
+  </div>
+)}
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps() {
   await dbConnect()
 
-  const pet = await Pet.findById(params.id).lean()
-  pet._id = pet._id.toString()
+  const resultsProjects = await Project.find({}).limit(10)
+  const projects = resultsProjects.map((doc) => {
+    const project= doc.toObject();
+    project._id = project._id.toString()
+    return project
+  })
 
-  return { props: { pet } }
+
+
+  return { props: {  projects:projects } }
 }
 
-export default PetPage
+export default Index

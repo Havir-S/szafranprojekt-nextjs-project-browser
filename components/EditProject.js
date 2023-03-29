@@ -3,8 +3,9 @@ import { useRouter } from 'next/router'
 import EditProjectFiles from './EditProjectFiles'
 
 function EditProject({currentEditingProject, setCurrentEditingProject, openFolder, toggleEditor}) {
-    
     const router = useRouter()
+
+
     const handleChange = (e) => {
         const value = e.target.value
         const name = e.target.name
