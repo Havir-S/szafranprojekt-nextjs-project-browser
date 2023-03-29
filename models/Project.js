@@ -23,6 +23,9 @@ const ProjectSchema = new mongoose.Schema({
   project_filesInfo: {
     type: [Object],
   },
+  project_clientContact: {
+    type: String
+  },
   project_start: {
     type: String,
   },
@@ -35,7 +38,7 @@ const ProjectSchema = new mongoose.Schema({
   project_status: {
     type: String,
   },
-} )
+})
 
 ProjectSchema.pre('save', async function (next) {
   const user = this;

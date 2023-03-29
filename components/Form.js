@@ -30,8 +30,8 @@ const Form = ({ formId, projectForm, disks, }) => {
         const res = await fetch('/api/projects', {
           method: 'POST',
           headers: {
-            Accept: contentType,
-            'Content-Type': contentType,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(form),
         })
