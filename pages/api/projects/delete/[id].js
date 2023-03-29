@@ -11,11 +11,11 @@ export default async function handler(req, res) {
   await dbConnect()
 
   try {
-    const user = await Project.findById(id)
-    console.log(user)
+    const project = await Project.findById(id)
+    console.log(project)
 
-    fs.rmSync(`${user.project_disk}:\\szafranprojekt\\${user.project_number}-${user.project_name}`, { recursive: true, force: true });
-    user.remove();
+    fs.rmSync(`${project.project_disk}:\\szafranprojekt\\${project.project_number}-${project.project_name}`, { recursive: true, force: true });
+    project.remove();
     
       res.status(200).json({ success: true,  })
   } catch (err) {

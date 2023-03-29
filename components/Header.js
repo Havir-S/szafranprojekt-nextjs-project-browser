@@ -2,25 +2,28 @@ import React from 'react'
 import Link from 'next/link'
 // import Project from '../models/Project'
 // import dbConnect from '../lib/dbConnect'
+import {addProjects} from '../lib/DEVaddProjects'
+import {deleteProject} from '../lib/DEVdeleteProjects'
 
 function Header() {
 
+  
+
   // dbConnect()
 
-  // const deleteOne = async () => {
-  //   console.log('ding')
-  //   try {
-  //     await Project.findOneAndRemove()
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-    
-  // }
+
+
   
   return (
     <div className='bg-white flex justify-between items-center shadow-md'>
       <Link href='/' className=' text-2xl font-bold cursor-pointer px-3 py-2 rounded-lg hover:bg-sky-100 hover:border-sky-200 border-2 border-gray-200 m-3 ml-12 bg-gray-100'>Sprawdź Projekty</Link>
       <div className='flex flex-row  items-center justify-center h-full gap-10 mr-12'>
+
+        <div>
+          <div className=' cursor-pointer inline-block hover:bg-sky-300 border-2 bg-sky-200 border-sky-500 py-1 px-3 rounded-l-lg' onClick={() => {addProjects(50)}}>Add 50 projects</div>
+          <div className=' cursor-pointer inline-block hover:bg-red-300 border-2 bg-red-200 border-red-500 py-1 px-3 rounded-r-lg' onClick={() => {deleteProject(50)}}>Add 50 projects</div>
+        </div>
+        
 
         <div className='flex items-center text-2xl'>
           <input placeholder='Projekt...' className='text-2xl py-5 w-fit rounded-l-lg border-r-0' type='text' />

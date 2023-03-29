@@ -55,22 +55,22 @@ ProjectSchema.virtual('filePath').get(function () {
   return`${this.project_disk}:\\szafranprojekt\\${this.project_number}-${this.project_name}`
 })
 
-ProjectSchema.pre('deleteOne', async function(next) {
-  /////delete folder on delete schema
+// ProjectSchema.pre('deleteOne', async function(next) {
+//   /////delete folder on delete schema
 
-  //////////// DOESN'T WORK FROM HERE, SWITCHING TO DELETING ON REACHING THE APP
-  // try {
-  //   fs.rmSync(`${this.project_disk}:\\szafranprojekt\\${this.id}`, { recursive: true, force: true });
-  //   // fs.rm(`${user.project_disk}:\\szafranprojekt\\${user.id}`, { recursive: true }, (err => {
-  //   //   if (err) {
-  //   //     console.log(err)
-  //   //     throw err;
-  //   //   }
-  //   // }));
-  // } catch (err) {
-  //   console.log(err)
-  // }
-  next();
- });
+//   //////////// DOESN'T WORK FROM HERE, SWITCHING TO DELETING ON REACHING THE APP
+//   // try {
+//   //   fs.rmSync(`${this.project_disk}:\\szafranprojekt\\${this.id}`, { recursive: true, force: true });
+//   //   // fs.rm(`${user.project_disk}:\\szafranprojekt\\${user.id}`, { recursive: true }, (err => {
+//   //   //   if (err) {
+//   //   //     console.log(err)
+//   //   //     throw err;
+//   //   //   }
+//   //   // }));
+//   // } catch (err) {
+//   //   console.log(err)
+//   // }
+//   next();
+//  });
 
 export default mongoose.models.Project || mongoose.model('Project', ProjectSchema)

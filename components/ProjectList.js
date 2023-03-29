@@ -21,7 +21,7 @@ function ProjectList({projects, openFolder, toggleEditor, setCurrentEditingProje
           <div className='flexCell flexName flexCellBorder'>Nazwa</div>
           <div className='flexCell flexClient flexCellBorder'>Klient</div>
           <div className='flexCell flexStreets flexCellBorder'>Ulice</div>
-          <div className='flexCell flexFiles flexCellBorder'>Pliki</div>
+          {/* <div className='flexCell flexFiles flexCellBorder'>Pliki</div> */}
           <div className='flexCell flexDate flexCellBorder'>Start</div>
           <div className='flexCell flexDate flexCellBorder'>Termin</div>
           <div className='flexCell flexNumber flexCellBorder'>Kwota</div>

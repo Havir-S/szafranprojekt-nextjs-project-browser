@@ -13,7 +13,7 @@ function ProjectRow({projekt, id, length, fastDelete, openFolder, toggleEditor, 
             <div className='flexCell flexName flexCellBorder truncate hover:text-clip'>{projekt.project_name}</div>
             <div className='flexCell flexClient flexCellBorder truncate hover:text-clip'>{projekt.project_client}</div>
             <div className='flexCell flexStreets flexCellBorder truncate hover:text-clip'>{projekt.project_streets}</div>
-            <div className='flexCell flexFiles flexCellBorder'>{projekt.project_filesNumber}</div>
+            {/* <div className='flexCell flexFiles flexCellBorder'>{projekt.project_filesNumber}</div> */}
             <div className='flexCell flexDate flexCellBorder'>
             {projekt.project_start}
             </div>
