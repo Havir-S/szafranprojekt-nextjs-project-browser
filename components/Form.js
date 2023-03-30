@@ -12,6 +12,7 @@ const Form = ({ formId, projectForm, disks, }) => {
     project_number: projectForm.project_number,
     project_name: projectForm.project_name,
     project_client: projectForm.project_client,
+    project_clientContact: projectForm.project_clientContact,
     project_filesNumber: projectForm.project_filesNumber,
     project_start: projectForm.project_start,
     project_termin: projectForm.project_termin,
@@ -36,7 +37,7 @@ const Form = ({ formId, projectForm, disks, }) => {
           body: JSON.stringify(form),
         })
 
-        router.push('/')
+        router.back('/')
       } catch (error) {
         console.log(error)
       }
@@ -98,6 +99,14 @@ const Form = ({ formId, projectForm, disks, }) => {
           value={form.project_client}
           onChange={handleChange}
         />
+
+      <label htmlFor="project_clientContact">Kontakt z klientem</label>
+              <input
+                type="string"
+                name="project_clientContact"
+                value={form.project_clientContact}
+                onChange={handleChange}
+              />
 
       <label htmlFor="project_start">Data startu Projektu</label>
         <input

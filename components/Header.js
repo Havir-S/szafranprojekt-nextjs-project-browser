@@ -16,7 +16,7 @@ function Header() {
   
   return (
     <div className='bg-white flex justify-between items-center shadow-md'>
-      <Link href='/' className=' text-2xl font-bold cursor-pointer px-3 py-2 rounded-lg hover:bg-sky-100 hover:border-sky-200 border-2 border-gray-200 m-3 ml-12 bg-gray-100'>Sprawdź Projekty</Link>
+      <Link href='/1' className=' text-2xl font-bold cursor-pointer px-3 py-2 rounded-lg hover:bg-sky-100 hover:border-sky-200 border-2 border-gray-200 m-3 ml-12 bg-gray-100'>Sprawdź Projekty</Link>
       <div className='flex flex-row  items-center justify-center h-full gap-10 mr-12'>
 
         <div>

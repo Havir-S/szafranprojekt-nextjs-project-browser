@@ -57,7 +57,7 @@
     }
 
     .flexNumber {
-        @apply w-32;
+        @apply w-28;
     }
     .flexName {
         @apply w-72;
@@ -66,7 +66,7 @@
         @apply w-36;
     }
     .flexDate {
-        @apply w-44;
+        @apply w-36;
     }
     .flexStreets {
         @apply w-64
@@ -75,6 +75,42 @@
         @apply w-20
     }
     .flexStatus {
-        @apply w-40
+        @apply w-36
+    }
+  }
+
+  .deleteBlock {
+    background: rgba(0,0,0,.95);
+    text-align: center;
+    color: white;
+    font-size: 1.5rem;
+    position: absolute;
+    width: 115%;
+    height: 115%;
+    border-radius: .5rem;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    animation: deleteAfter5 forwards 5s;
+  }
+
+  @keyframes deleteAfter5 {
+    0% {
+        opacity: 1;
+    }
+    99.9% {
+        width: 115%;
+        height:115%;
+        font-size: 1.5rem;
+        opacity: 1;
+        top:50%;
+        left: 50%;
+    }
+    100% {
+        width: 0;
+        height:0;
+        font-size: 0rem;
+        opacity: 0;
+        
     }
   }

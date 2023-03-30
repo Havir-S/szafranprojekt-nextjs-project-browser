@@ -4,6 +4,8 @@ import EditProject from '../components/EditProject'
 import ProjectList from '../components/ProjectList'
 import dbConnect from '../lib/dbConnect'
 import Project from '../models/Project'
+import { redirect } from 'next/navigation';
+
 
 import TEMPLATE_PROJECTS from './TEMP.js'
 
@@ -48,7 +50,6 @@ export async function getServerSideProps() {
   const resultsProjects = await Project.find({})
   // console.log(resultsProjects)
   const projects = resultsProjects.map((doc) => {
-    console.log('AAAAAA', doc)
     const project= doc.toObject()
     project._id = project._id.toString()
     return project

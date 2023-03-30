@@ -1,15 +1,17 @@
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/router';
+import React, { useState } from 'react'
+import DeleteModal from './DeleteModal';
 import ProjectRow from './ProjectRow';
 
 function ProjectList({projects, openFolder, toggleEditor, setCurrentEditingProject}) {
-
-  const fastDelete = async (id) => {
-    try {
-      await fetch(`api/projects/delete/${id}`);
-    } catch (e) {
-      console.log(e)
-    }
+  const [deleteModal, toggleDeleteModal] = useState(false)
+  const [deleteProject, setDeleteProject] = useState({})
+  
+  const fastDelete = (proj) => {
+    setDeleteProject(proj)
+    toggleDeleteModal(true)
+    
   }
 
  
@@ -20,6 +22,7 @@ function ProjectList({projects, openFolder, toggleEditor, setCurrentEditingProje
           <div className='flexCell flexNumber flexCellBorder'>Numer</div>
           <div className='flexCell flexName flexCellBorder'>Nazwa</div>
           <div className='flexCell flexClient flexCellBorder'>Klient</div>
+          <div className='flexCell flexClient flexCellBorder'>Kontakt</div>
           <div className='flexCell flexStreets flexCellBorder'>Ulice</div>
           {/* <div className='flexCell flexFiles flexCellBorder'>Pliki</div> */}
           <div className='flexCell flexDate flexCellBorder'>Start</div>
@@ -35,6 +38,10 @@ function ProjectList({projects, openFolder, toggleEditor, setCurrentEditingProje
             )
           }
         )) : ('')}
+
+        {deleteModal && (
+          <DeleteModal deleteProject={deleteProject} toggleDeleteModal={toggleDeleteModal} setDeleteProject={setDeleteProject} deleteModal={deleteModal} />
+        )}
     </div>
   )
 }
