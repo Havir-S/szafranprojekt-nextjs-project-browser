@@ -5,7 +5,6 @@ import NewNote from './NewNote'
 
 function Notes({notes}) {
     const [newNote, toggleNewNote] = useState(false)
-    console.log(notes)
     const router = useRouter()
 
     const deleteNote = async (id) => {

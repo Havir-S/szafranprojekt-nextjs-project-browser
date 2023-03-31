@@ -40,6 +40,8 @@ const ProjectSchema = new mongoose.Schema({
   },
 })
 
+ProjectSchema.index({ project_name: 'text', project_client: 'text', project_clientContact: 'text', project_streets: 'text', project_start: 'text', project_termin: 'text', project_status: 'text' });
+
 ProjectSchema.pre('save', async function (next) {
   const user = this;
   /////CREATE FOLDER FOR DOCUMENT FILES

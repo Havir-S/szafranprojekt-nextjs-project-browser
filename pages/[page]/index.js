@@ -49,16 +49,16 @@ const Index = ({ projects, numberOfPages, currentPage, notes }) => {
 export async function getServerSideProps({query}) {
   // console.log(context)
   const {page, search} = query
-  console.log(query)
 
   // const {query: page2} = context
   const LIMIT = 10
   const startIndex = (Number(page) - 1) * LIMIT; //get the starting index of every page
 
   await dbConnect()
-    const total = await Project.find({}).countDocuments({})
+    const total = await Project.find((search ? {$text: {$search: search}} : {})).countDocuments({})
   // const resultsProjects2 = await Project.find({}).sort({project_number: -1}).limit(LIMIT).skip(startIndex).lean();
-  const resultsProjects2 = await Project.find({project_name: 'projekt'}).sort({project_number: -1}).limit(LIMIT).skip(startIndex)
+  const resultsProjects2 = await Project.find((search ? {$text: {$search: search}} : {})).sort({project_number: -1}).limit(LIMIT).skip(startIndex)
+  // const resultsProjects2 = await Project.find((search ? {$text: {$search: { regex: { path: 'project_name', query: `.*${search}.*`, allowAnalyzedField: true }} }} : {})).sort({project_number: -1}).limit(LIMIT).skip(startIndex)
   
   const projects = resultsProjects2.map((doc) => {
     const project= doc.toObject();

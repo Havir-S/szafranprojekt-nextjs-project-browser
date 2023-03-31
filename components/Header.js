@@ -4,6 +4,7 @@ import Link from 'next/link'
 // import dbConnect from '../lib/dbConnect'
 import {addProjects} from '../lib/DEVaddProjects'
 import {deleteProject} from '../lib/DEVdeleteProjects'
+import SearchComponent from './SearchComponent'
 
 function Header() {
 
@@ -25,10 +26,7 @@ function Header() {
         </div>
         
 
-        <div className='flex items-center text-2xl'>
-          <input placeholder='Projekt...' className='text-2xl py-5 w-fit rounded-l-lg border-r-0' type='text' />
-          <button className='inline-block hover:bg-sky-300 border-2 bg-sky-200 border-sky-500 py-1 px-3 rounded-r-lg'>Szukaj</button>
-        </div>
+        <SearchComponent />
         
         <button onClick={() => {deleteOne()}} className=' text-2xl font-bold cursor-pointer px-3 py-2 rounded-lg hover:bg-sky-100 hover:border-sky-200 border-2 border-gray-200  bg-gray-100'>Ustawienia</button>
         <Link href='/new' className=' text-2xl font-bold cursor-pointer px-3 py-2 rounded-lg hover:bg-sky-100 hover:border-sky-200 border-2 border-gray-200  bg-gray-100'>Dodaj Projekt</Link>
