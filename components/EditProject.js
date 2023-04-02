@@ -32,7 +32,7 @@ function EditProject({currentEditingProject, setCurrentEditingProject, openFolde
               throw new Error(res.status)
             }
       
-            router.push('/');
+            router.push(window.location.pathname);
             toggleEditor(false);
           } catch (error) {
             console.log('Coś poszło nie tak i nie udało się nadpisać projektu', error)
@@ -52,7 +52,7 @@ function EditProject({currentEditingProject, setCurrentEditingProject, openFolde
                 <div onClick={() => {toggleEditor(false)}} className='border-4 cursor-pointer rounded-lg py-2 font-bold px-5 bg-red-200 border-red-400 hover:bg-red-300'>Zamknij</div>
             </div>
         </div>
-        <p className='font-sans shadow-xl text-xl font-bold border-b-2 border-gray-500'> aa {currentEditingProject?.project_number}-{currentEditingProject?.project_name}-{currentEditingProject?.project_client}</p>
+        <p className='font-sans shadow-xl text-xl font-bold border-b-2 border-gray-500'>{currentEditingProject?.project_number}-{currentEditingProject?.project_name}-{currentEditingProject?.project_client}</p>
         <div className='flex gap-2'>
             <form className='text-left p-0 m-0 text-xl '>
                 <div>

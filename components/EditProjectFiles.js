@@ -159,11 +159,11 @@ function EditProjectFiles({currentEditingProject, setCurrentEditingProject, }) {
             <p className='text-xl font-bold'>PLIKI: <span>{filesNumber?.filesUploaded} / {filesNumber?.filesNeededToUpload} </span></p>
             <div>
                 <button onClick={() => {inputRef.current.click()}} className='mr-2 border-4 cursor-pointer rounded-lg font-bold p-2 bg-green-200 border-green-400 hover:bg-green-300'>Dodaj</button>
-                <button onClick={() => {}} className='border-4 cursor-pointer rounded-lg font-bold p-2 bg-red-200 border-red-400 hover:bg-red-300'>Usuń</button>
+                {/* <button onClick={() => {}} className='border-4 cursor-pointer rounded-lg font-bold p-2 bg-red-200 border-red-400 hover:bg-red-300'>Usuń</button> */}
                 <input name='project_newFiles' onChange={addFile} hidden ref={inputRef} type='file' multiple />
             </div>
         </div>
-        <p className='font-bold text-center'>Zmiany na plikach zachodzą OD RAZU !!!</p>
+        {/* <p className='font-bold text-center'>Zmiany na plikach zachodzą OD RAZU !!!</p> */}
 
         {/* /////* WARNING TO WAIT FOR THE FILES TO UPLOAD */}
         <p className='text-xl font-bold text-center text-blue-500'>{filesNumber?.filesUploaded !== filesNumber?.filesNeededToUpload ? 'Poczekaj aż pliki się wgrają.' : ''}</p>
