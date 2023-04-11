@@ -6,6 +6,7 @@ const NewProject = ({disks}) => {
     project_number: 0,
     project_name: '',
     project_client: '',
+    project_clientContact: '',
     project_filesNumber: 0,
     project_start: '',
     project_termin: '',

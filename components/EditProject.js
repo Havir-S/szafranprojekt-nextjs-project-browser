@@ -68,6 +68,10 @@ function EditProject({currentEditingProject, setCurrentEditingProject, openFolde
                     <input type='text' name='project_client' onChange={(e) => {handleChange(e)}} value={currentEditingProject.project_client} />
                 </div>
                 <div>
+                    <label htmlFor='project_clientContact'>KLIENT KONTAKT:</label>
+                    <input type='text' name='project_clientContact' onChange={(e) => {handleChange(e)}} value={currentEditingProject.project_clientContact} />
+                </div>
+                <div>
                     <label htmlFor='project_streets'>ULICE:</label>
                     <input type='text' name='project_streets' onChange={(e) => {handleChange(e)}} value={currentEditingProject.project_streets} />
                 </div>

@@ -2,11 +2,12 @@
 import dbConnect from '../../../../lib/dbConnect'
 import Project from '../../../../models/Project'
 import fs from 'fs'
+import readline from 'readline'
 
 export const config = {
     api: {
         bodyParser: {
-            sizeLimit: '5000mb'
+            sizeLimit: '5gb'
         },
       responseLimit: false,
     },
@@ -30,18 +31,13 @@ export default async function handler(req, res) {
             }
         }
 
-    console.log(projectOld.project_filesInfo, 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAA', req.body.project_filesInfo)
-
-
     
-
-    
-    // console.log('filesToDelete', filesToDelete)
     ///GETS AN ARRAY OF FILES THAT NO LONGER APPEAR ON THE NEW LIST, SO WE MUST DELETE THEM
     const filesToDelete = projectOld.project_filesInfo.filter(({ name: oldName, size: oldSize }) => !req.body.project_filesInfo.some(({ name: newName, size: newSize }) => (newName === oldName || newSize === oldSize)));
     ///DELETE THEM FROM THE filesInfo TOO
     const new_project_filesInfo = [...projectOld.project_filesInfo.filter(({ name: oldName, size: oldSize }) => req.body.project_filesInfo.some(({ name: newName, size: newSize }) => (newName === oldName || newSize === oldSize)))]
     ////We have files that are no longer on the filesInfo list, so we delete them
+    console.log(filesToDelete)
     if (filesToDelete.length > 0) {
         filesToDelete.forEach((file) => {
             console.log(file)
@@ -79,6 +75,41 @@ export default async function handler(req, res) {
                         } 
                     }
             )
+
+            // fs.createWriteStream(
+            //     (`${req.body.project_disk}:\\szafranprojekt\\${req.body.project_number}-${req.body.project_name}\\${file.name}`),
+            //     fileBase64,
+            //     'base64',
+            //     async function(err) {
+            //             if (err) {
+            //                 console.log(err)
+            //                 console.log('There was an error')
+            //                 //IF SOMETHING WENT WRONG DELETE PROJECT
+                            
+            //             } 
+            //         }
+            // )
+
+            // let wstream = fs.createWriteStream(`${req.body.project_disk}:\\szafranprojekt\\${req.body.project_number}-${req.body.project_name}\\${file.name}`)
+
+            // const wstream = fs.createWriteStream(`${req.body.project_disk}:\\szafranprojekt\\${req.body.project_number}-${req.body.project_name}\\${file.name}`, {encoding: 'base64'})
+            // wstream.write(fileBase64)
+            // wstream.on("error", (err) => {
+            //     console.log(`An error occured while writing to the file. Error: ${err.message}`);
+
+            // });
+            // wstream.on("finish", (err) => {
+            //     console.log(`finish`);
+
+            // });
+
+            // wstream.write(fileBase64, (err) => {
+            //     if (err) {
+            //         console.log(err)
+            //     } else {
+            //         console.log('ding')
+            //     }
+            // })
         }))
     }
     console.log('THIS IS THE NEW FILESINFO', new_project_filesInfo)
